@@ -116,12 +116,6 @@
             return touchee;
         }
 
-
-
-
-
-
-
         public static String replace(String jeux,String solution, int tir, boolean touchee){
             String nouv;
             char test;
@@ -137,20 +131,40 @@
             }else{
                 System.out.println(TIR_REDONDANT);
                 return jeux;
-
             }
 
         }
 
         public static String bateau(String solution){
+            String pos="";
+            int poss=0;
 
+            for(int i = 0; i < 10; i++){
+                if (solution.charAt(i) == 'B') {
+                    poss = i;
+                    pos = pos + "0" + i;
+                }
+
+            }
+
+            for(int i = 10; i < solution.length(); i++){
+                if (solution.charAt(i) == 'B') {
+                    poss = i;
+                    pos = pos + i;
+                }
+
+            }
+            return pos;
         }
+
+
 
 
 
 
 
         public static void main (String [] args){
+
             int munition=0;
             String jouerEncore;
             String solution;
@@ -159,7 +173,13 @@
             int test=1;
             int tir;
             boolean touche;
-            String bateauTout;
+            String bateauTout ;
+            String cuirasse=null;
+            String croiseur = null;
+            String sousMarin = null;
+            String destroyer = null;
+            String test2;
+
 
             titre();
 
@@ -173,9 +193,12 @@
                 do {
                     String bateau;
                     System.out.print(MUN_RESTANTE + munition);
-                    System.out.println(VAISSEAU_COULLER + bateauTout);
+                    System.out.println(VAISSEAU_COULLER);
                     tir = tir(coordonneeValid(coordonneeLongeur()));
                     jeux= replace(jeux, solution, tir,touche(solution,tir));
+
+                    test2 = bateau(solution);
+                    System.out.println(test2);
 
 
 
