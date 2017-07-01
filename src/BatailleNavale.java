@@ -1,5 +1,8 @@
 /**
- * Created by alex on 17-06-28.
+ * TP2
+ * Created by Alexandre Clément
+ * Code permanent CLEA16059309
+ *
  */
     public class BatailleNavale {
 
