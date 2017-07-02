@@ -20,6 +20,10 @@
         public static final String DESOLE ="DESOLE! Vous avez epuise toutes vos munitions!";
         public static final String NBR_VAISSEAU_COULE ="Nombre de vaisseaux non coules : ";
         public static final String MUNITION_UTILISE ="Munitions utilisees : ";
+        public static final int cuiresse = 5;
+        public static final int croiseur = 4;
+        public static final int sousmarin = 3;
+        public static final int destroyer = 2;
 
         public static void titre(){
             System.out.println(" ____    ____  ______   ____  ____  _      _        ___ ");
@@ -145,19 +149,36 @@
         }
 
         public static String bateauPossition (String solution){
-            String pos="";
+            String pos = "                                                                ";
+            int var;
 
-            for(int i = 0; i < 10; i++){
-                if (solution.charAt(i) == 'B') {
-                    pos = pos + "0" + i;
+
+            for(int x = 4; x>0; x--) {
+                int z=0;
+                var = x*8;
+
+                for (int i = 0; i < (64-var); i++) {
+                    if (solution.charAt(i) == 'B' & solution.charAt((i + 8)) == 'B' &
+                            solution.charAt((i + (var-8))) == 'B'  &
+                            solution.charAt((i + var)) == 'B') {
+
+
+                        for (int y = i; z<=x ; y += 8) {
+                            pos = pos.substring(0, y) + (x+1) + pos.substring(y, 63);
+                            solution = solution.substring(0, y) + " " + solution.substring(y, 63);
+
+                            z++;
+                        }
+
+
+
+                    }
+
+
                 }
+
             }
 
-            for(int i = 10; i < solution.length(); i++){
-                if (solution.charAt(i) == 'B') {
-                    pos = pos + i;
-                }
-            }
             return pos;
         }
 
@@ -190,23 +211,21 @@
                 solution = JeuUtils.genererGrilleSolution();
                 System.out.println();
                 JeuUtils.afficherGrille(jeux);
+                JeuUtils.afficherGrille(solution);
 
                 do {
-                    String bateau;
                     System.out.print(MUN_RESTANTE + munition);
                     System.out.println(VAISSEAU_COULLER);
                     tir = tir(coordonneeValid(coordonneeLongeur()));
                     jeux= replace(jeux, solution, tir,touche(solution,tir));
 
                     test2 = bateauPossition(solution);
-                    test3 = Integer.decode(test2);
-                    System.out.println(test3);
+                    JeuUtils.afficherGrille(test2);
 
 
 
 
                     JeuUtils.afficherGrille(jeux);
-                    JeuUtils.afficherGrille(solution);
                     munition--;
 
 
