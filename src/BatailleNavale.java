@@ -49,19 +49,25 @@
         }
 
         public static int difficulte() {
-            String choixutilisateur;
+            String choixUtilisateur;
             int reponse = 0;
+
             do {
-                choixutilisateur = Clavier.lireString();
-                if (choixutilisateur.equals("1")) {
-                    reponse = reponse + 45;
-                } else if (choixutilisateur.equals("2")) {
-                    reponse = reponse + 35;
-                } else if (choixutilisateur.equals("3")) {
-                    reponse = reponse + 25;
-                } else {
-                    System.out.println(MSG_ERR_NIVEAU);
-                    niveau();
+                choixUtilisateur = Clavier.lireString();
+                switch (choixUtilisateur) {
+                    case "1":
+                        reponse = reponse + 45;
+                        break;
+                    case "2":
+                        reponse = reponse + 35;
+                        break;
+                    case "3":
+                        reponse = reponse + 25;
+                        break;
+                    default:
+                        System.out.println(MSG_ERR_NIVEAU);
+                        niveau();
+                        break;
                 }
             } while (reponse == 0);
             return reponse;
@@ -69,9 +75,10 @@
 
         public static String coordonneeLongeur() {
             String coordonnee;
+            int chaine;
+
             System.out.print(COORDONNES);
             coordonnee = Clavier.lireString();
-            int chaine;
             chaine = coordonnee.length();
             while (chaine != 3) {
                 System.out.print(MSG_ERR_TIR);
@@ -92,26 +99,23 @@
             return coordonnee;
         }
 
-
-
         public static int tir(String coordonnee){
             int tir;
             int ligne;
             int colone;
-            String isole;
 
-            isole = coordonnee.substring(0,1);
-            ligne = Integer.parseInt(isole);
+            ligne = Integer.parseInt(coordonnee.substring(0,1));
+            colone = Integer.parseInt(coordonnee.substring(2,3));
 
-            isole = coordonnee.substring(2,3);
-            colone = Integer.parseInt(isole);
             tir = (ligne * 8) + colone;
-            return tir;
 
+            return tir;
         }
+
         public static boolean touche(String solution,  int tir){
             boolean touchee=false;
             char solutionaire;
+
             solutionaire = solution.charAt(tir);
             if(solutionaire == 'B') {
                 touchee = true;
@@ -120,17 +124,19 @@
         }
 
         public static String replace(String jeux,String solution, int tir, boolean touchee){
-            String nouv;
+            String essaie;
             char test;
+
             test = jeux.charAt(tir);
-            if(touchee && test == ' ') {
-                nouv = jeux.substring(0, tir) + "B" + jeux.substring(tir, 63);
+
+            if(touchee & test == ' ') {
+                essaie = jeux.substring(0, tir) + "B" + jeux.substring(tir, 63);
                 System.out.println(TOUCHER);
-                return nouv;
+                return essaie;
             }if(test == ' ') {
-                nouv = jeux.substring(0, tir) + "X" + jeux.substring(tir, 63);
+                essaie = jeux.substring(0, tir) + "X" + jeux.substring(tir, 63);
                 System.out.println(TIR_ECHEC);
-                return nouv;
+                return essaie;
             }else{
                 System.out.println(TIR_REDONDANT);
                 return jeux;
@@ -138,38 +144,28 @@
 
         }
 
-        public static String bateau(String solution){
+        public static String bateauPossition (String solution){
             String pos="";
-            int poss=0;
 
             for(int i = 0; i < 10; i++){
                 if (solution.charAt(i) == 'B') {
-                    poss = i;
                     pos = pos + "0" + i;
                 }
-
             }
 
             for(int i = 10; i < solution.length(); i++){
                 if (solution.charAt(i) == 'B') {
-                    poss = i;
                     pos = pos + i;
                 }
-
             }
             return pos;
         }
 
 
-
-
-
-
-
         public static void main (String [] args){
 
-            int munition=0;
-            String jouerEncore;
+            int munition;
+            boolean rejouer = true;
             String solution;
             String jeux = "                                                                ";
             String coordonnes;
@@ -182,6 +178,8 @@
             String sousMarin = null;
             String destroyer = null;
             String test2;
+            int test3;
+
 
 
             titre();
@@ -200,8 +198,9 @@
                     tir = tir(coordonneeValid(coordonneeLongeur()));
                     jeux= replace(jeux, solution, tir,touche(solution,tir));
 
-                    test2 = bateau(solution);
-                    System.out.println(test2);
+                    test2 = bateauPossition(solution);
+                    test3 = Integer.decode(test2);
+                    System.out.println(test3);
 
 
 
@@ -214,13 +213,10 @@
                 }while(munition !=0);
 
 
-            }while(test !=1);
+            }while(rejouer);
             System.out.println(FIN);
 
-
-
         }
-
     }
 
 
